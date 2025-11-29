@@ -46,7 +46,7 @@ Utilização da biblioteca `Matplotlib` para gerar gráficos estratégicos:
 
 
 ```markdown
-git clone [https://github.com/seu-usuario/nome-do-repositorio.git](https://github.com/seu-usuario/nome-do-repositorio.git)
+git clone [https://github.com/bponciano/Est.Caso_Analise_Comercial](https://github.com/bponciano/Est.Caso_Analise_Comercial)
 ```
 
 2. Instale as dependências necessárias:
