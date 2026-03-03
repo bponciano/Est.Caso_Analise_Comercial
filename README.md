@@ -1,6 +1,7 @@
-# 📊 Análise de Vendas e Performance Financeira
+# 📊 Análise de Vendas e Performance Comercial
 
-Este projeto consiste em um script Python desenvolvido para processar, limpar e analisar dados de vendas comerciais. O objetivo é transformar planilhas brutas em insights visuais sobre faturamento, lucro e comportamento dos clientes.
+> Pipeline de tratamento, integração e análise de dados de vendas com geração de indicadores estratégicos.  
+> Demonstra limpeza de dados, merge entre tabelas, cálculo de métricas financeiras e visualização analítica.
 
 ![Python](https://img.shields.io/badge/Python-3.x-blue?style=for-the-badge&logo=python)
 ![Pandas](https://img.shields.io/badge/Pandas-Data_Analysis-150458?style=for-the-badge&logo=pandas)
@@ -8,70 +9,157 @@ Este projeto consiste em um script Python desenvolvido para processar, limpar e 
 
 ## 🎯 Objetivo do Projeto
 
-Automatizar o processo de consolidação de dados de vendas (extraídos de CSVs), realizar o tratamento de erros comuns em bases de dados reais (como datas mal formatadas e estados duplicados) e gerar relatórios gráficos para tomada de decisão.
+Construir um fluxo completo de tratamento e análise de dados comerciais a partir de duas bases distintas:
 
-## ⚙️ Funcionalidades
+- Planilha de vendas (dados transacionais)
+- Tabela mestre de produtos (dados de custo)
 
-### 1. Coleta e Limpeza de Dados (ETL)
-- **Importação:** Leitura de arquivos CSV (`planilha_vendas2.csv` e `tabela_mestre.csv`).
-- **Tratamento de Tipos:** Conversão de colunas de datas e formatação de floats.
-- **Correção de Dados:**
-  - Preenchimento de valores nulos (ex: frete).
-  - Remoção de registros incompletos.
-  - Padronização de strings (ex: correção de siglas de estados 'SPP' -> 'SP').
-- **Unificação de Identificadores:** Fusão inteligente das colunas de CPF e CNPJ em uma única coluna identificadora.
+O projeto foi desenvolvido para simular um cenário real de análise empresarial, onde é necessário:
 
-### 2. Enriquecimento de Dados
-- **Merge de Tabelas:** Cruzamento da tabela de vendas com a tabela mestre de produtos para obter o custo unitário.
-- **Cálculos Financeiros:**
-  - Cálculo do **Lucro Real** (Valor Total - (Custo * Quantidade)).
-  - Cálculo da **Margem de Lucro** percentual.
+- Corrigir inconsistências
+- Padronizar dados
+- Integrar múltiplas fontes
+- Calcular métricas financeiras
+- Gerar visualizações estratégicas
 
-### 3. Visualização de Dados
-Utilização da biblioteca `Matplotlib` para gerar gráficos estratégicos:
-- 📈 **Evolução de Faturamento Anual:** Gráfico de linha.
-- 💰 **Evolução do Lucro Anual:** Gráfico de linha comparativo.
-- 📊 **Status das Vendas:** Gráfico de barras horizontais (Percentual de vendas concluídas vs. canceladas/pendentes).
-- 🏆 **Top 5 Clientes VIP:** Ranking dos clientes que geraram maior receita.
+O foco está na construção de um pipeline analítico estruturado e replicável.
 
-## 🛠️ Tecnologias Utilizadas
-
-- **Python**
-- **Pandas:** Para manipulação e análise tabular.
-- **Matplotlib:** Para criação dos gráficos estáticos.
-
-## 🚀 Como Executar
-
-1. Clone este repositório:
-
-
-```markdown
-git clone [https://github.com/bponciano/Est.Caso_Analise_Comercial](https://github.com/bponciano/Est.Caso_Analise_Comercial)
+## 🏗 Arquitetura da Solução
+```
+Planilha de Vendas (CSV)
++
+Tabela Mestre de Produtos (CSV)
+↓
+Limpeza e Padronização
+↓
+Unificação de Identificação (CPF/CNPJ)
+↓
+Merge entre Bases
+↓
+Cálculo de Métricas (Lucro, Margem)
+↓
+Agregações Analíticas
+↓
+Visualização com Matplotlib
 ```
 
-2. Instale as dependências necessárias:
- 
-```markdown
- pip install pandas matplotlib
-```
+## ⚙️ Stack Tecnológica
 
-3. Certifique-se de que os arquivos planilha_vendas2.csv e tabela_mestre.csv estejam na mesma pasta do script.
+- Python 3
+- Pandas
+- Matplotlib
+- CSV (dados estruturados)
 
-4. Execute o arquivo Python:
+## 🔄 Pipeline de Dados
 
-```markdown
-python analise_vendas.py
-```
-## 📂 Estrutura dos Arquivos
+### 1️⃣ Leitura e Diagnóstico Inicial
+- Importação dos arquivos CSV
+- Verificação da estrutura com `.info()`
+- Inspeção de tipos e valores nulos
 
+---
+
+### 2️⃣ Limpeza e Padronização
+
+- Conversão de datas com `pd.to_datetime`
+- Tratamento de valores nulos (`fillna`)
+- Remoção de registros incompletos (`dropna`)
+- Padronização textual (`strip`, `upper`)
+- Correção de inconsistências com dicionário de substituição
+- Formatação de floats para melhor visualização
+
+---
+
+### 3️⃣ Normalização de Identificador
+
+- Padronização de CPF/CNPJ em uma única coluna
+- Eliminação de redundâncias estruturais
+- Garantia de chave única de cliente
+
+---
+
+### 4️⃣ Integração entre Bases
+
+- Renomeação estratégica de colunas
+- Remoção de duplicidades na tabela mestre
+- Aplicação de `merge` (left join)
+- Identificação de produtos sem cadastro de custo
+
+---
+
+### 5️⃣ Engenharia de Métricas
+
+Cálculos implementados:
+
+- **Lucro**  
 ```python
-├── analise_vendas.py     # Script principal
-├── planilha_vendas2.csv  # Base de dados de vendas (Input)
-├── tabela_mestre.csv     # Base de dados de produtos/custos (Input)
-├── grafico.png           # Output gerado pelas funções de plotagem
-└── README.md             # Documentação
+lucro = valor_total - (valor_custo * quantidade)
 ```
+- **Margem de Lucro (%)**  
+```python
+margem = (lucro / valor_total) * 100
+```
+---
 
+### 6️⃣ Agregações Analíticas
 
-Desenvolvido por:
-## Breno Ponciano.
+- Crescimento anual de faturamento
+- Evolução anual de lucro
+- Distribuição percentual por status de venda
+- Ranking dos 5 principais clientes (VIP)
+
+Uso de:
+
+- `groupby`
+- `sum`
+- `value_counts(normalize=True)`
+- `sort_values`
+
+---
+
+### 7️⃣ Visualização de Dados
+
+Funções personalizadas para:
+
+- Gráfico de linha (evolução temporal)
+- Gráfico de barras horizontal (ranking e distribuição)
+
+Características:
+- Padronização visual
+- Exportação automática em PNG
+- Configuração de grid e layout profissional
+
+## 🧠 Conceitos Aplicados
+
+- Data Cleaning
+- Data Wrangling
+- Data Normalization
+- Feature Engineering
+- Data Integration (Join/Merge)
+- Análise de Performance Comercial
+- Visualização Estratégica
+- Cálculo de Indicadores Financeiros
+- Pensamento orientado a negócio
+
+## 📊 Aplicações Analíticas
+
+- Análise de crescimento anual
+- Identificação de clientes estratégicos
+- Monitoramento de margem e lucratividade
+- Avaliação de performance comercial
+- Base para dashboards executivos
+- Suporte à tomada de decisão
+
+## 🚀 Evoluções Futuras
+
+- Automatização do pipeline com funções modulares
+- Criação de dashboard interativo (Power BI / Streamlit)
+- Implementação de testes de qualidade de dados
+- Deploy como API analítica
+- Integração com banco de dados relacional
+- Criação de relatórios automatizados
+
+## 👨‍💻 Autor
+
+**Breno Ponciano**  
+Foco em Engenharia e Análise de Dados
